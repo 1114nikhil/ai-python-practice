@@ -27,6 +27,7 @@ sentences = {
     "B": "The delivery hasn't shown up and it's been 14 days.",
     "C": "The weather has been really nice this week.",
     "D": "I want to cancel my subscription immediately.",
+    "E": "My order #9912 never arrived, it's been two weeks."
 }
 
 keys= list(sentences.keys())
@@ -35,7 +36,7 @@ vectors = dict(zip(keys,vectors_list))
 
 print(f"Vector dimensions: {len(vectors['A'])}\n")
 
-pairs= [("A","B"),("A","C"),("A","D"),("B","C")]
+pairs= [("A","B"),("A","C"),("A","D"),("B","C"),("E","A")]
 
 for x,y in pairs:
     sim=cosine_similarity(vectors[x],vectors[y])

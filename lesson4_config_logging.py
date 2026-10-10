@@ -1,4 +1,3 @@
-from operator import mod
 import logging
 import time
 from typing import Literal,Optional
@@ -11,7 +10,7 @@ from pydantic_settings import BaseSettings,SettingsConfigDict
 class Setting(BaseSettings):
     anthropic_api_key:str
     model:str
-    max_token:int
+    max_tokens:int
     temperature:float
     log_level:str
 
@@ -21,9 +20,10 @@ setting=Setting()
 
 # Logging
 logging.basicConfig(
-    level=setting.log_level,
+    level=setting.log_level.upper(),
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
+    datefmt="%Y-%m-%d %H:%M:%S",
+    force=True
 )
 
 logger =logging.getLogger("ticket_service")
@@ -53,7 +53,7 @@ async def extract_ticket(request:EmailRequest)->Ticket:
     try:
         response=await client.messages.create(
             model=setting.model,
-            max_tokens=setting.max_token,
+            max_tokens=setting.max_tokens,
             extra_body={"temperature":setting.temperature},
             system=SYSTEM,
             messages=[
